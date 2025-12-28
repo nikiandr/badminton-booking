@@ -1,9 +1,24 @@
 import { Loader2 } from "lucide-react";
 
-export default function Loader() {
+import { cn } from "@/lib/utils";
+
+interface LoaderProps {
+  className?: string;
+  size?: "sm" | "default" | "lg";
+}
+
+const sizeClasses = {
+  sm: "size-4",
+  default: "size-6",
+  lg: "size-8",
+};
+
+export default function Loader({ className, size = "default" }: LoaderProps) {
   return (
-    <div className="flex h-full items-center justify-center pt-8">
-      <Loader2 className="animate-spin" />
+    <div className={cn("flex items-center justify-center py-8", className)}>
+      <Loader2
+        className={cn("animate-spin text-muted-foreground", sizeClasses[size])}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
-  "id": "be3e9012-423b-4dca-9973-840cc6d65c92",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "e9b26124-f530-4ef4-9394-d0d9466abc9f",
+  "prevId": "be3e9012-423b-4dca-9973-840cc6d65c92",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -232,6 +232,18 @@
           "primaryKey": false,
           "notNull": true
         },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "email": {
           "name": "email",
           "type": "text",
@@ -240,6 +252,13 @@
         },
         "email_verified": {
           "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "profile_completed": {
+          "name": "profile_completed",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,

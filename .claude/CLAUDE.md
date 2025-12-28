@@ -28,10 +28,12 @@ bun run check-types      # TypeScript type checking
 This is a Turborepo monorepo with Bun as the package manager.
 
 ### Apps
+
 - **`apps/web`**: React frontend using TanStack Start/Router, Vite, and TailwindCSS v4. Uses shadcn/ui components.
 - **`apps/server`**: Hono server running on Bun. Exposes tRPC API at `/trpc/*` and Better-Auth at `/api/auth/*`.
 
 ### Packages
+
 - **`packages/api`**: tRPC router definitions. Exports `publicProcedure` and `protectedProcedure`. Add new routers in `src/routers/`.
 - **`packages/auth`**: Better-Auth configuration with Drizzle adapter for PostgreSQL.
 - **`packages/db`**: Drizzle ORM setup. Schema files in `src/schema/`. The `drizzle.config.ts` reads `.env` from `apps/server/.env`.
@@ -39,20 +41,32 @@ This is a Turborepo monorepo with Bun as the package manager.
 - **`packages/config`**: Shared TypeScript config (`tsconfig.base.json`).
 
 ### Data Flow
+
 1. Web app calls tRPC via `useTRPC()` hook from `src/utils/trpc.ts`
 2. Server receives requests at `/trpc/*` and creates context with session from Better-Auth
 3. `protectedProcedure` automatically validates session and provides typed `ctx.session`
 4. Database queries use Drizzle ORM from `@badminton-app/db`
 
 ### Environment Variables
+
 Server (`apps/server/.env`): `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `CORS_ORIGIN`
 Web: `VITE_SERVER_URL` (must be prefixed with `VITE_` for client access)
+
+## UI Components
+
+**Use shadcn/ui components for everything.** The project uses the `base-maia` style with Base UI primitives.
+
+- Add new components via: `bunx shadcn@latest add <component-name>` (run from `apps/web/`)
+- Components are installed to `apps/web/src/components/ui/`
+- Use existing shadcn components before creating custom ones
+- Custom components should compose shadcn primitives, not replace them
 
 ## Code Standards
 
 Uses **Ultracite** (Biome preset) for linting/formatting. Run `bun x ultracite fix` before committing.
 
 Key rules:
+
 - Prefer `for...of` over `.forEach()` and indexed loops
 - Use `const` by default, `let` only when needed, never `var`
 - Prefer `unknown` over `any`

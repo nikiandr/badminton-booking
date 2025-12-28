@@ -1,5 +1,10 @@
 # Badminton app Spec
 
+## Design Notes
+
+- Use ShadCN components for everything.
+- Use frontend-design skill from Claude Code to help on design.
+
 ## Purpose of app
 
 This would be an app that would allow us to manage, create, and edit badminton sessions, and if necessary, notify users about those badminton sessions.
@@ -49,6 +54,8 @@ When clicking create on this page - badminton session should be created.
 
 7. You should create a different login and sign-up page for those purposes.
 
+9. If a user tries to sign in but doesn't have an account yet, redirect them to the sign-up page and show a message that they don't have an account and need to sign up first.
+
 8. Specific badminton session page should look like that.
 
 It should have info about the session on the left and list of people on the right with the queue on the bottom of that list. The number of places in the main part, not in the queue, should be limited to the number of spaces in the badminton session that we added when creating a session. If you're a user, you should be able to register yourself from the specific session. You should always also be able to unregister yourself from the specific session also if you Are in one of the available spaces, so not in the queue. For example, if the badminton session has 4 spaces, and you're one of those 4 people registered, you got your place in time. Then, it should be able to mark yourself as paid. If you're still in the queue, you shouldn't be able to mark yourself as paid.
@@ -61,7 +68,8 @@ For the admin, they should be able to remove a person from the queue or the main
 - [ ] 2. Sessions page with calendar view (admin + user)
 - [ ] 3. Create session - start from existing or scratch
 - [ ] 4. Session creation form with all fields
-- [ ] 5. Google login integration
-- [ ] 6. Name/surname on login or sign up
-- [ ] 7. Separate login and sign-up pages
+- [x] 5. Google login integration
+- [x] 6. Name/surname on login or sign up
+- [x] 7. Separate login and sign-up pages
 - [ ] 8. Session detail page with registration and queue
+- [x] 9. Redirect non-existing users from login to signup with message
