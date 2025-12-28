@@ -48,7 +48,7 @@ function RouteComponent() {
         {
           onSuccess: () => {
             toast.success("Profile completed successfully");
-            navigate({ to: "/dashboard" });
+            navigate({ to: "/" });
           },
           onError: (error) => {
             toast.error(error.message || "Failed to complete profile");

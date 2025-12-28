@@ -7,6 +7,7 @@ export const env = createEnv({
     VITE_SERVER_URL: z.url(),
     VITE_APP_URL: z.url(),
   },
+  // biome-ignore lint/suspicious/noExplicitAny: Vite's import.meta.env requires type assertion
   runtimeEnv: (import.meta as any).env,
   emptyStringAsUndefined: true,
 });

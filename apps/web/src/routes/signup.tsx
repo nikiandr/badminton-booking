@@ -23,7 +23,7 @@ export const Route = createFileRoute("/signup")({
     try {
       const session = await getUser();
       if (session) {
-        throw redirect({ to: "/dashboard" });
+        throw redirect({ to: "/" });
       }
     } catch (error) {
       if (

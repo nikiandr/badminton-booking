@@ -1,4 +1,5 @@
 import { db } from "@badminton-app/db";
+// biome-ignore lint/performance/noNamespaceImport: Required for drizzle adapter schema
 import * as schema from "@badminton-app/db/schema/auth";
 import { env } from "@badminton-app/env/server";
 import { betterAuth } from "better-auth";

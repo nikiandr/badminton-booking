@@ -17,7 +17,7 @@ export const Route = createFileRoute("/login")({
     try {
       const session = await getUser();
       if (session) {
-        throw redirect({ to: "/dashboard" });
+        throw redirect({ to: "/" });
       }
     } catch (error) {
       if (
@@ -39,10 +39,7 @@ function RouteComponent() {
           <CardDescription>Sign in to your account to continue</CardDescription>
         </CardHeader>
         <CardContent>
-          <GoogleSignInButton
-            callbackURL="/dashboard?from=login"
-            mode="signin"
-          />
+          <GoogleSignInButton callbackURL="/?from=login" mode="signin" />
         </CardContent>
         <CardFooter className="justify-center">
           <p className="text-muted-foreground text-sm">

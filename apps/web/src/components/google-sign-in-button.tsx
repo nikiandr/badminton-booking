@@ -51,7 +51,7 @@ function getButtonText(isLoading: boolean, mode: "signin" | "signup") {
 
 export default function GoogleSignInButton({
   mode = "signin",
-  callbackURL = "/dashboard",
+  callbackURL = "/",
 }: GoogleSignInButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
