@@ -15,6 +15,13 @@
       "when": 1766948227580,
       "tag": "0001_long_arclight",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766964010462,
+      "tag": "0002_flaky_surge",
+      "breakpoints": true
     }
   ]
 }

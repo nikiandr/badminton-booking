@@ -1,3 +1,5 @@
+import { db, eq } from "@badminton-app/db";
+import { user } from "@badminton-app/db/schema/auth";
 import { initTRPC, TRPCError } from "@trpc/server";
 
 import type { Context } from "./context";
@@ -20,6 +22,27 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     ctx: {
       ...ctx,
       session: ctx.session,
+    },
+  });
+});
+
+export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  const [currentUser] = await db
+    .select()
+    .from(user)
+    .where(eq(user.id, ctx.session.user.id));
+
+  if (!currentUser?.isAdmin) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Admin access required",
+    });
+  }
+
+  return next({
+    ctx: {
+      ...ctx,
+      user: currentUser,
     },
   });
 });
