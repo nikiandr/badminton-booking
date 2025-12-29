@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { Clock, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
@@ -8,7 +8,14 @@ import Loader from "@/components/loader";
 import { SessionsCalendar } from "@/components/sessions-calendar";
 import { SessionsList } from "@/components/sessions-list";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { getUser } from "@/functions/get-user";
+import { authClient } from "@/lib/auth-client";
 import { useTRPC } from "@/utils/trpc";
 
 const searchSchema = z.object({
@@ -58,6 +65,37 @@ function RouteComponent() {
 
   const profile = profileQuery.data;
   const isAdmin = profile?.isAdmin ?? false;
+  const isApproved = profile?.isApproved ?? false;
+
+  // Show pending approval page for non-approved users who are not admins
+  if (!(isApproved || isAdmin)) {
+    const handleSignOut = async () => {
+      await authClient.signOut();
+      navigate({ to: "/login" });
+    };
+
+    return (
+      <div className="flex h-full items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+              <Clock className="size-6 text-muted-foreground" />
+            </div>
+            <CardTitle>Pending Approval</CardTitle>
+            <CardDescription className="text-balance">
+              Your account is awaiting approval from an administrator. You'll be
+              able to access the platform once your account has been approved.
+            </CardDescription>
+          </CardHeader>
+          <div className="flex justify-center px-6 pb-6">
+            <Button onClick={handleSignOut} variant="outline">
+              Sign Out
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);

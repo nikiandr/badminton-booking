@@ -100,6 +100,13 @@ function SessionDetailPage() {
   const session = sessionQuery.data;
   const participants = participantsQuery.data ?? [];
   const isAdmin = profile?.isAdmin ?? false;
+  const isApproved = profile?.isApproved ?? false;
+
+  // Redirect non-approved users to home page (which shows pending approval message)
+  if (!(isApproved || isAdmin)) {
+    navigate({ to: "/" });
+    return <Loader />;
+  }
 
   if (!session) {
     return (

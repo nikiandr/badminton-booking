@@ -10,6 +10,7 @@ export const user = pgTable("user", {
   emailVerified: boolean("email_verified").default(false).notNull(),
   profileCompleted: boolean("profile_completed").default(false).notNull(),
   isAdmin: boolean("is_admin").default(false).notNull(),
+  isApproved: boolean("is_approved").default(false).notNull(),
   image: text("image"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")

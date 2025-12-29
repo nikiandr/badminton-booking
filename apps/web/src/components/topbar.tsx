@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import { LogOut, Settings } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { LogOut, Settings, Users } from "lucide-react";
 import { useState } from "react";
 
 import { AccountManagementModal } from "@/components/account-management-modal";
@@ -23,6 +23,7 @@ export function Topbar() {
   const [accountModalOpen, setAccountModalOpen] = useState(false);
 
   const profile = profileQuery.data;
+  const isAdmin = profile?.isAdmin ?? false;
 
   const getInitials = () => {
     if (profile?.firstName && profile?.lastName) {
@@ -48,7 +49,9 @@ export function Topbar() {
       <header className="border-border border-b bg-background">
         <div className="flex h-14 items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-lg">Badminton App</span>
+            <Link className="font-semibold text-lg" to="/">
+              Badminton App
+            </Link>
           </div>
 
           <DropdownMenu>
@@ -80,6 +83,17 @@ export function Topbar() {
                 </p>
               </div>
               <DropdownMenuSeparator />
+              {isAdmin && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => navigate({ to: "/admin/users" })}
+                  >
+                    <Users className="size-4" />
+                    Manage Users
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
               <DropdownMenuItem onClick={handleOpenAccountModal}>
                 <Settings className="size-4" />
                 Account Settings
