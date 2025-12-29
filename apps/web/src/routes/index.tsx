@@ -68,8 +68,8 @@ function RouteComponent() {
   };
 
   return (
-    <div className="h-full overflow-auto">
-      <div className="mx-auto max-w-6xl px-4 pt-8 pb-5">
+    <div className="h-full">
+      <div className="mx-auto max-w-6xl px-4 pt-6 pb-5">
         {/* Page header */}
         <header className="mb-5 flex items-start justify-between gap-4">
           <div>
