@@ -6,7 +6,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "dev": "vite dev",
-    "start": "node .output/server/index.mjs"
+    "start": "node dist/server/server.js"
   },
   "dependencies": {
     "@badminton-app/api": "workspace:*",
