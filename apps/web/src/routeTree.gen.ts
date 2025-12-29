@@ -13,6 +13,9 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CompleteProfileRouteImport } from './routes/complete-profile'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SessionsCreateRouteImport } from './routes/sessions.create'
+import { Route as SessionsCreateIndexRouteImport } from './routes/sessions.create.index'
+import { Route as SessionsCreateFormRouteImport } from './routes/sessions.create.form'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -34,18 +37,38 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SessionsCreateRoute = SessionsCreateRouteImport.update({
+  id: '/sessions/create',
+  path: '/sessions/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SessionsCreateIndexRoute = SessionsCreateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SessionsCreateRoute,
+} as any)
+const SessionsCreateFormRoute = SessionsCreateFormRouteImport.update({
+  id: '/form',
+  path: '/form',
+  getParentRoute: () => SessionsCreateRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/complete-profile': typeof CompleteProfileRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/sessions/create': typeof SessionsCreateRouteWithChildren
+  '/sessions/create/form': typeof SessionsCreateFormRoute
+  '/sessions/create/': typeof SessionsCreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/complete-profile': typeof CompleteProfileRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/sessions/create/form': typeof SessionsCreateFormRoute
+  '/sessions/create': typeof SessionsCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +76,37 @@ export interface FileRoutesById {
   '/complete-profile': typeof CompleteProfileRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/sessions/create': typeof SessionsCreateRouteWithChildren
+  '/sessions/create/form': typeof SessionsCreateFormRoute
+  '/sessions/create/': typeof SessionsCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/complete-profile' | '/login' | '/signup'
+  fullPaths:
+    | '/'
+    | '/complete-profile'
+    | '/login'
+    | '/signup'
+    | '/sessions/create'
+    | '/sessions/create/form'
+    | '/sessions/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/complete-profile' | '/login' | '/signup'
-  id: '__root__' | '/' | '/complete-profile' | '/login' | '/signup'
+  to:
+    | '/'
+    | '/complete-profile'
+    | '/login'
+    | '/signup'
+    | '/sessions/create/form'
+    | '/sessions/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/complete-profile'
+    | '/login'
+    | '/signup'
+    | '/sessions/create'
+    | '/sessions/create/form'
+    | '/sessions/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +114,7 @@ export interface RootRouteChildren {
   CompleteProfileRoute: typeof CompleteProfileRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  SessionsCreateRoute: typeof SessionsCreateRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -99,14 +147,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sessions/create': {
+      id: '/sessions/create'
+      path: '/sessions/create'
+      fullPath: '/sessions/create'
+      preLoaderRoute: typeof SessionsCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sessions/create/': {
+      id: '/sessions/create/'
+      path: '/'
+      fullPath: '/sessions/create/'
+      preLoaderRoute: typeof SessionsCreateIndexRouteImport
+      parentRoute: typeof SessionsCreateRoute
+    }
+    '/sessions/create/form': {
+      id: '/sessions/create/form'
+      path: '/form'
+      fullPath: '/sessions/create/form'
+      preLoaderRoute: typeof SessionsCreateFormRouteImport
+      parentRoute: typeof SessionsCreateRoute
+    }
   }
 }
+
+interface SessionsCreateRouteChildren {
+  SessionsCreateFormRoute: typeof SessionsCreateFormRoute
+  SessionsCreateIndexRoute: typeof SessionsCreateIndexRoute
+}
+
+const SessionsCreateRouteChildren: SessionsCreateRouteChildren = {
+  SessionsCreateFormRoute: SessionsCreateFormRoute,
+  SessionsCreateIndexRoute: SessionsCreateIndexRoute,
+}
+
+const SessionsCreateRouteWithChildren = SessionsCreateRoute._addFileChildren(
+  SessionsCreateRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompleteProfileRoute: CompleteProfileRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  SessionsCreateRoute: SessionsCreateRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

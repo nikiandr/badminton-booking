@@ -66,8 +66,8 @@ For the admin, they should be able to remove a person from the queue or the main
 
 - [ ] 1. Admin panel - user management and approval
 - [x] 2. Sessions page with calendar view (admin + user)
-- [ ] 3. Create session - start from existing or scratch
-- [ ] 4. Session creation form with all fields
+- [x] 3. Create session - start from existing or scratch
+- [x] 4. Session creation form with all fields
 - [x] 5. Google login integration
 - [x] 6. Name/surname on login or sign up
 - [x] 7. Separate login and sign-up pages
