@@ -71,5 +71,5 @@ For the admin, they should be able to remove a person from the queue or the main
 - [x] 5. Google login integration
 - [x] 6. Name/surname on login or sign up
 - [x] 7. Separate login and sign-up pages
-- [ ] 8. Session detail page with registration and queue
+- [x] 8. Session detail page with registration and queue
 - [x] 9. Redirect non-existing users from login to signup with message
