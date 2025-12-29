@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1
+
+FROM oven/bun:1.2.23 AS base
+WORKDIR /app
+
+# Install dependencies
+FROM base AS deps
+COPY package.json bun.lock ./
+COPY apps/web/package.json ./apps/web/
+COPY packages/api/package.json ./packages/api/
+COPY packages/auth/package.json ./packages/auth/
+COPY packages/db/package.json ./packages/db/
+COPY packages/env/package.json ./packages/env/
+COPY packages/config/package.json ./packages/config/
+RUN bun install --frozen-lockfile
+
+# Build the application
+FROM base AS builder
+ARG VITE_SERVER_URL
+ARG VITE_APP_URL
+ENV VITE_SERVER_URL=$VITE_SERVER_URL
+ENV VITE_APP_URL=$VITE_APP_URL
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY . .
+RUN bun run build --filter=web
+
+# Production image - use Node for TanStack Start runtime
+FROM node:22-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/apps/web/.output ./.output
+COPY --from=builder /app/apps/web/package.json ./package.json
+
+EXPOSE 3000
+CMD ["node", ".output/server/index.mjs"]

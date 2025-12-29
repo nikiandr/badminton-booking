@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1
+
+FROM oven/bun:1.2.23 AS base
+WORKDIR /app
+
+# Install dependencies
+FROM base AS deps
+COPY package.json bun.lock ./
+COPY apps/server/package.json ./apps/server/
+COPY packages/api/package.json ./packages/api/
+COPY packages/auth/package.json ./packages/auth/
+COPY packages/db/package.json ./packages/db/
+COPY packages/env/package.json ./packages/env/
+COPY packages/config/package.json ./packages/config/
+RUN bun install --frozen-lockfile
+
+# Build the application
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
+COPY . .
+RUN bun run build --filter=server
+
+# Production image
+FROM base AS runner
+ENV NODE_ENV=production
+
+COPY --from=builder /app/apps/server/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/server/package.json ./package.json
+
+EXPOSE 3000
+CMD ["bun", "run", "dist/index.js"]
