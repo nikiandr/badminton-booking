@@ -6,7 +6,7 @@ WORKDIR /app
 # Install dependencies
 FROM base AS deps
 COPY package.json bun.lock ./
-COPY apps/web/package.json ./apps/web/
+COPY apps/server/package.json ./apps/server/
 COPY packages/api/package.json ./packages/api/
 COPY packages/auth/package.json ./packages/auth/
 COPY packages/db/package.json ./packages/db/
@@ -16,23 +16,19 @@ RUN bun install --frozen-lockfile
 
 # Build the application
 FROM base AS builder
-ARG VITE_SERVER_URL
-ARG VITE_APP_URL
-ENV VITE_SERVER_URL=$VITE_SERVER_URL
-ENV VITE_APP_URL=$VITE_APP_URL
-
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY . .
-RUN bun run build --filter=web
+WORKDIR /app/apps/server
+RUN bun run build
 
-# Production image - use Node for TanStack Start runtime
-FROM node:22-slim AS runner
+# Production image
+FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /app/apps/web/.output ./.output
-COPY --from=builder /app/apps/web/package.json ./package.json
+COPY --from=builder /app/apps/server/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/server/package.json ./package.json
 
 EXPOSE 3000
-CMD ["node", ".output/server/index.mjs"]
+CMD ["bun", "run", "dist/index.js"]
