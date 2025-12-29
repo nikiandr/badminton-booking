@@ -1,4 +1,5 @@
 import { protectedProcedure, publicProcedure, router } from "../index";
+import { registrationRouter } from "./registration";
 import { sessionRouter } from "./session";
 import { userRouter } from "./user";
 
@@ -14,5 +15,6 @@ export const appRouter = router({
   }),
   user: userRouter,
   session: sessionRouter,
+  registration: registrationRouter,
 });
 export type AppRouter = typeof appRouter;

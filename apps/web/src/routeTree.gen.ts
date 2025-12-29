@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as CompleteProfileRouteImport } from './routes/complete-profile'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SessionsCreateRouteImport } from './routes/sessions.create'
+import { Route as SessionsSessionIdRouteImport } from './routes/sessions.$sessionId'
 import { Route as SessionsCreateIndexRouteImport } from './routes/sessions.create.index'
 import { Route as SessionsCreateFormRouteImport } from './routes/sessions.create.form'
 
@@ -42,6 +43,11 @@ const SessionsCreateRoute = SessionsCreateRouteImport.update({
   path: '/sessions/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SessionsSessionIdRoute = SessionsSessionIdRouteImport.update({
+  id: '/sessions/$sessionId',
+  path: '/sessions/$sessionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SessionsCreateIndexRoute = SessionsCreateIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/complete-profile': typeof CompleteProfileRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/sessions/$sessionId': typeof SessionsSessionIdRoute
   '/sessions/create': typeof SessionsCreateRouteWithChildren
   '/sessions/create/form': typeof SessionsCreateFormRoute
   '/sessions/create/': typeof SessionsCreateIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/complete-profile': typeof CompleteProfileRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/sessions/$sessionId': typeof SessionsSessionIdRoute
   '/sessions/create/form': typeof SessionsCreateFormRoute
   '/sessions/create': typeof SessionsCreateIndexRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/complete-profile': typeof CompleteProfileRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/sessions/$sessionId': typeof SessionsSessionIdRoute
   '/sessions/create': typeof SessionsCreateRouteWithChildren
   '/sessions/create/form': typeof SessionsCreateFormRoute
   '/sessions/create/': typeof SessionsCreateIndexRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/complete-profile'
     | '/login'
     | '/signup'
+    | '/sessions/$sessionId'
     | '/sessions/create'
     | '/sessions/create/form'
     | '/sessions/create/'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/complete-profile'
     | '/login'
     | '/signup'
+    | '/sessions/$sessionId'
     | '/sessions/create/form'
     | '/sessions/create'
   id:
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/complete-profile'
     | '/login'
     | '/signup'
+    | '/sessions/$sessionId'
     | '/sessions/create'
     | '/sessions/create/form'
     | '/sessions/create/'
@@ -114,6 +126,7 @@ export interface RootRouteChildren {
   CompleteProfileRoute: typeof CompleteProfileRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  SessionsSessionIdRoute: typeof SessionsSessionIdRoute
   SessionsCreateRoute: typeof SessionsCreateRouteWithChildren
 }
 
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionsCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sessions/$sessionId': {
+      id: '/sessions/$sessionId'
+      path: '/sessions/$sessionId'
+      fullPath: '/sessions/$sessionId'
+      preLoaderRoute: typeof SessionsSessionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sessions/create/': {
       id: '/sessions/create/'
       path: '/'
@@ -190,6 +210,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompleteProfileRoute: CompleteProfileRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  SessionsSessionIdRoute: SessionsSessionIdRoute,
   SessionsCreateRoute: SessionsCreateRouteWithChildren,
 }
 export const routeTree = rootRouteImport

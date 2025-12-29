@@ -7,6 +7,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth";
+import { sessionRegistration } from "./registration";
 
 export const badmintonSession = pgTable("badminton_session", {
   id: text("id")
@@ -30,10 +31,11 @@ export const badmintonSession = pgTable("badminton_session", {
 
 export const badmintonSessionRelations = relations(
   badmintonSession,
-  ({ one }) => ({
+  ({ one, many }) => ({
     createdBy: one(user, {
       fields: [badmintonSession.createdById],
       references: [user.id],
     }),
+    registrations: many(sessionRegistration),
   })
 );
